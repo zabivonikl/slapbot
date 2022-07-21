@@ -7,7 +7,7 @@ public class Startup
     public void ConfigureServices(IServiceCollection serviceCollection)
     {
         serviceCollection.AddTelegramSingleton(Secrets.Telegram.ApiKey);
-        serviceCollection.AddControllers();
+        serviceCollection.AddControllers().AddNewtonsoftJson();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

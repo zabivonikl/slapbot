@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Telegram.Bot;
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 
 namespace API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 public class Telegram : Controller
 {
     private readonly ILogger<Telegram> logger;
@@ -19,56 +18,33 @@ public class Telegram : Controller
         this.logger = logger;
     }
 
-    [HttpGet]
+    [HttpGet("~/[controller]")]
     public async Task<string> GetMe() => (await botClient.GetMeAsync()).ToString();
 
     [HttpPost]
-    public IActionResult Updates(Update update)
+    public IActionResult Updates([FromBody] Update update)
     {
         logger.LogDebug("{UpdateId}: {S}", update.Id, update.Type.ToString());
-        switch (update.Type)
-        {
-            case UpdateType.Message:
-            {
-                Task.Run(
-                        async () => await botClient.SendTextMessageAsync(
-                                update.Message!.Chat,
-                                $"{update.Id}: {update.Type.ToString()}"
-                            )
-                    ).Start();
-                break;
-            }
-            case UpdateType.Unknown:
-                break;
-            case UpdateType.InlineQuery:
-                break;
-            case UpdateType.ChosenInlineResult:
-                break;
-            case UpdateType.CallbackQuery:
-                break;
-            case UpdateType.EditedMessage:
-                break;
-            case UpdateType.ChannelPost:
-                break;
-            case UpdateType.EditedChannelPost:
-                break;
-            case UpdateType.ShippingQuery:
-                break;
-            case UpdateType.PreCheckoutQuery:
-                break;
-            case UpdateType.Poll:
-                break;
-            case UpdateType.PollAnswer:
-                break;
-            case UpdateType.MyChatMember:
-                break;
-            case UpdateType.ChatMember:
-                break;
-            case UpdateType.ChatJoinRequest:
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(update));
-        }
+        Task.Factory.StartNew(
+            async () => await botClient.SendTextMessageAsync(
+                update.Message!.Chat, "Я робот-долбоёб"));
         return Ok("ok");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> SetWebhook()
+    {
+        await botClient.SetWebhookAsync(
+            "https://9563-178-69-229-14.ngrok.io/Telegram/Updates", 
+            dropPendingUpdates: true
+            );
+        return Ok();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> RemoveWebhook()
+    {
+        await botClient.DeleteWebhookAsync();
+        return Ok();
     }
 }
