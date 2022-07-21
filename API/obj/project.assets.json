@@ -23,6 +23,16 @@
           "lib/netcoreapp3.1/Telegram.Bot.dll": {}
         }
       },
+      "Secrets/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Secrets.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Secrets.dll": {}
+        }
+      },
       "Telegram/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
@@ -84,6 +94,11 @@
         "telegram.bot.nuspec"
       ]
     },
+    "Secrets/1.0.0": {
+      "type": "project",
+      "path": "../Secrets/Secrets.csproj",
+      "msbuildProject": "../Secrets/Secrets.csproj"
+    },
     "Telegram/1.0.0": {
       "type": "project",
       "path": "../Telegram/Telegram.csproj",
@@ -93,6 +108,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "Newtonsoft.Json >= 13.0.1",
+      "Secrets >= 1.0.0",
       "Telegram >= 1.0.0",
       "Telegram.Bot >= 18.0.0"
     ]
@@ -129,6 +145,9 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
+            "D:\\C#\\SlapBot\\Secrets\\Secrets.csproj": {
+              "projectPath": "D:\\C#\\SlapBot\\Secrets\\Secrets.csproj"
+            },
             "D:\\C#\\SlapBot\\Telegram\\Telegram.csproj": {
               "projectPath": "D:\\C#\\SlapBot\\Telegram\\Telegram.csproj"
             }

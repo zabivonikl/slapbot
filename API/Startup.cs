@@ -1,12 +1,13 @@
-﻿namespace API;
+﻿using API.Extensions;
+
+namespace API;
 
 public class Startup
 {
     public void ConfigureServices(IServiceCollection serviceCollection)
     {
-        var token = Configuration.
+        serviceCollection.AddTelegramSingleton(Secrets.Telegram.ApiKey);
         serviceCollection.AddControllers();
-        serviceCollection.AddEndpointsApiExplorer();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -14,6 +15,8 @@ public class Startup
         if (env.IsDevelopment())
             app.UseDeveloperExceptionPage();
 
+        app.UseHttpsRedirection();  
         app.UseRouting();
+        app.UseEndpoints(endpoints => endpoints.MapControllers());
     }
 }
