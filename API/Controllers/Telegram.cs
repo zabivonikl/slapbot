@@ -1,6 +1,7 @@
 ﻿using BotLogic;
 using BotLogic.ChainResponsibilityLinks;
 using MessengersClients;
+using MessengersClients.KeyboardAdapters;
 using Microsoft.AspNetCore.Mvc;
 using Telegram.Bot;
 using Telegram.Bot.Types;
@@ -12,15 +13,15 @@ namespace API.Controllers;
 [Route("[controller]/[action]")]
 public class Telegram : Controller
 {
-    private readonly AbstractHandler eventHandler;
-    
     private readonly ITelegramBotClient botClient;
+
+    private readonly AbstractHandler eventHandler;
 
     private readonly ILogger<Telegram> logger;
 
     public Telegram(ITelegramBotClient bot, ILogger<Telegram> logger)
     {
-        eventHandler = ChainResponsibilityFactory.GetChain();
+        eventHandler = ChainResponsibilityFactory.GetChain(new TelegramKeyboardFactory());
         botClient = bot;
         this.logger = logger;
     }
@@ -41,7 +42,7 @@ public class Telegram : Controller
     public async Task<IActionResult> SetWebhook()
     {
         await botClient.SetWebhookAsync(
-                "https://d994-178-69-229-14.ngrok.io/Telegram/Updates",
+                "https://9106-178-69-229-14.ngrok.io/Telegram/Updates",
                 dropPendingUpdates: true
             );
         return Ok();

@@ -1,16 +1,22 @@
-﻿using MessengersClients.Types;
+﻿using MessengersClients.KeyboardAdapters;
+using MessengersClients.Types;
 
 namespace BotLogic.ChainResponsibilityLinks;
 
 public class UnexpectedActionHandler : AbstractHandler
 {
+    private readonly IKeyboard kb;
+
+    public UnexpectedActionHandler(IKeyboard kb, AbstractHandler? next = null) : base(next) => this.kb = kb;
+
     protected override bool CanHandle(Update update) => true;
 
-    protected override Task _Handle(Update update)
+    protected override async Task _Handle(Update update)
     {
-        base._Handle(update);
-        return update.Messenger.SupportMarkdown ?
-            update.Messenger.SendMessage(update.Chat, "Недопустимое действие") :
-            update.Messenger.SendMarkdownMessage(update.Chat, "_Недопустимое действие_");
+        await base._Handle(update);
+        if (update.Messenger.SupportMarkdown)
+            await update.Messenger.SendMarkdownMessage(update.Chat, "_Недопустимое действие_", kb);
+        else
+            await update.Messenger.SendMessage(update.Chat, "Недопустимое действие", kb);
     }
 }

@@ -1,20 +1,33 @@
-﻿using MessengersClients.Types;
+﻿using Database;
+using MessengersClients.KeyboardAdapters;
+using MessengersClients.Types;
 
 namespace BotLogic.ChainResponsibilityLinks;
 
 public class StartMessageHandler : AbstractHandler
 {
-    public StartMessageHandler(AbstractHandler? next = null) : base(next)
+    private readonly IKeyboard kb;
+    
+    public StartMessageHandler(IKeyboard kb, AbstractHandler? next = null) : base(next)
     {
+        this.kb = kb;
     }
 
     protected override bool CanHandle(Update update) => update.Message is "/start" or "Начать";
 
-    protected override Task _Handle(Update update)
+    protected override async Task _Handle(Update update)
     {
-        base._Handle(update);
-        return update.Messenger.SupportMarkdown ?
-            update.Messenger.SendMessage(update.Chat, "Выберите действие") :
-            update.Messenger.SendMarkdownMessage(update.Chat, "*Выберите действие*");
+        await base._Handle(update);
+        await using (var context = new SlapBotDal())
+        {
+            if (!context.Users.Contains(update.Chat))
+                await context.Users.AddAsync(update.Chat);
+            await context.SaveChangesAsync();
+        }
+
+        if (update.Messenger.SupportMarkdown)
+            await update.Messenger.SendMarkdownMessage(update.Chat, "*Выберите действие*", kb);
+        else
+            await update.Messenger.SendMessage(update.Chat, "Выберите действие", kb);
     }
 }

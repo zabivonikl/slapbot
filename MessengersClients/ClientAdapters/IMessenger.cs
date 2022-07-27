@@ -1,4 +1,5 @@
-﻿using MessengersClients.Types;
+﻿using MessengersClients.KeyboardAdapters;
+using MessengersClients.Types;
 
 namespace MessengersClients.ClientAdapters;
 
@@ -8,7 +9,7 @@ public interface IMessenger
 
     Task SetTyping(Chat chat);
 
-    Task SendMessage(Chat chat, string text);
+    Task SendMessage(Chat chat, string text, IKeyboard kb);
 
-    Task SendMarkdownMessage(Chat chat, string text);
+    Task SendMarkdownMessage(Chat chat, string text, IKeyboard kb);
 }

@@ -18,6 +18,6 @@ public abstract class AbstractHandler
 
     protected abstract bool CanHandle(Update update);
 
-    protected virtual async Task _Handle(Update update) => 
+    protected virtual async Task _Handle(Update update) =>
         await update.Messenger.SetTyping(update.Chat);
 }

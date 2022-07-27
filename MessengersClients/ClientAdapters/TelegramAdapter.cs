@@ -1,6 +1,7 @@
-﻿using Telegram.Bot;
+﻿using MessengersClients.KeyboardAdapters;
+using MessengersClients.Types;
+using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
-using Chat = MessengersClients.Types.Chat;
 
 namespace MessengersClients.ClientAdapters;
 
@@ -18,16 +19,18 @@ public class TelegramAdapter : IMessenger
                 ChatAction.Typing
             );
 
-    public async Task SendMessage(Chat chat, string text) => 
+    public async Task SendMessage(Chat chat, string text, IKeyboard kb) =>
         await client.SendTextMessageAsync(
-            chat.Username is null ? chat.ChatId : chat.Username,
-            text
-        );
+                chat.Username is null ? chat.ChatId : chat.Username,
+                text,
+                replyMarkup: ((TelegramKeyboard)kb).GetKeyboard()
+            );
 
-    public async Task SendMarkdownMessage(Chat chat, string text) => 
+    public async Task SendMarkdownMessage(Chat chat, string text, IKeyboard kb) =>
         await client.SendTextMessageAsync(
-            chat.Username is null ? chat.ChatId : chat.Username,
-            text,
-            ParseMode.MarkdownV2
-        );
+                chat.Username is null ? chat.ChatId : chat.Username,
+                text,
+                ParseMode.MarkdownV2,
+                replyMarkup: ((TelegramKeyboard)kb).GetKeyboard()
+            );
 }
