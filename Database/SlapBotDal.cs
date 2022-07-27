@@ -1,6 +1,6 @@
 ﻿using Database.Entities;
-using Microsoft.EntityFrameworkCore;
 using MessengersClients.Types;
+using Microsoft.EntityFrameworkCore;
 
 namespace Database;
 

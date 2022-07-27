@@ -4,5 +4,9 @@ namespace BotLogic;
 
 public static class ChainResponsibilityFactory
 {
-    public static AbstractHandler GetChain() => throw new NotImplementedException();
+    public static AbstractHandler GetChain()
+    {
+        var unexpectedActionHandler = new UnexpectedActionHandler();
+        return new StartMessageHandler(unexpectedActionHandler);
+    }
 }

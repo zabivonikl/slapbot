@@ -7,8 +7,7 @@ public class Game
 {
     private long id;
 
-    [Required]
-    public string? Punishment { get; set; }
+    [Required] public string? Punishment { get; set; }
 
     public IEnumerable<Chat> Users { get; } = new List<Chat>();
 

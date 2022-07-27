@@ -6,9 +6,9 @@ public interface IMessenger
 {
     bool SupportMarkdown { get; }
 
-    void SetTyping(Chat chat);
+    Task SetTyping(Chat chat);
 
-    void SendMessage(Chat chat, string text);
+    Task SendMessage(Chat chat, string text);
 
-    void SendMarkdownMessage(Chat chat, string text);
+    Task SendMarkdownMessage(Chat chat, string text);
 }

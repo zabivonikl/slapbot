@@ -9,14 +9,11 @@ public class Slap
 
     public Slap() => Time = DateTime.Now;
 
-    [Required]
-    public Game Game { get; init; } = null!;
+    [Required] public Game Game { get; init; } = null!;
 
-    [Required]
-    public Chat From { get; init; } = null!;
+    [Required] public Chat From { get; init; } = null!;
 
-    [Required]
-    public Chat To { get; init; } = null!;
+    [Required] public Chat To { get; init; } = null!;
 
     public DateTime Time { get; }
 }

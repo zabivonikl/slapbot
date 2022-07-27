@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BotLogic;
+using BotLogic.ChainResponsibilityLinks;
+using MessengersClients;
+using Microsoft.AspNetCore.Mvc;
 using Telegram.Bot;
 using Telegram.Bot.Types;
+using Telegram.Bot.Types.Enums;
 
 namespace API.Controllers;
 
@@ -8,12 +12,15 @@ namespace API.Controllers;
 [Route("[controller]/[action]")]
 public class Telegram : Controller
 {
+    private readonly AbstractHandler eventHandler;
+    
     private readonly ITelegramBotClient botClient;
 
     private readonly ILogger<Telegram> logger;
 
     public Telegram(ITelegramBotClient bot, ILogger<Telegram> logger)
     {
+        eventHandler = ChainResponsibilityFactory.GetChain();
         botClient = bot;
         this.logger = logger;
     }
@@ -22,15 +29,11 @@ public class Telegram : Controller
     public async Task<string> GetMe() => (await botClient.GetMeAsync()).ToString();
 
     [HttpPost]
-    public IActionResult Updates([FromBody] Update update)
+    public async Task<IActionResult> Updates([FromBody] Update update)
     {
         logger.LogInformation("{UpdateId}: {S}", update.Id, update.Message!.Chat.Username);
-        Task.Factory.StartNew(
-                async () => await botClient.SendTextMessageAsync(
-                        update.Message!.Chat,
-                        "Я робот-долбоёб"
-                    )
-            );
+        if (update.Type == UpdateType.Message)
+            await eventHandler.Handle(update.GetAdapter(botClient));
         return Ok("ok");
     }
 
@@ -38,7 +41,7 @@ public class Telegram : Controller
     public async Task<IActionResult> SetWebhook()
     {
         await botClient.SetWebhookAsync(
-                "https://02f5-178-69-229-14.ngrok.io/Telegram/Updates",
+                "https://d994-178-69-229-14.ngrok.io/Telegram/Updates",
                 dropPendingUpdates: true
             );
         return Ok();
