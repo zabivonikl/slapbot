@@ -4,8 +4,8 @@
 /MessengersClients/obj/
 /BotLogic/bin/
 /BotLogic/obj/
-/API/bin/
-/API/obj/
+API/bin
+API/obj
 /.idea
 
 *_i.c
