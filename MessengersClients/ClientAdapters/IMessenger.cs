@@ -5,7 +5,7 @@ namespace MessengersClients.ClientAdapters;
 
 public interface IMessenger
 {
-    bool SupportMarkdown { get; }
+    bool IsSupportMarkdown { get; }
 
     Task SetTyping(Chat chat);
 

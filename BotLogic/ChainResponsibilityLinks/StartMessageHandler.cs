@@ -7,11 +7,8 @@ namespace BotLogic.ChainResponsibilityLinks;
 public class StartMessageHandler : AbstractHandler
 {
     private readonly IKeyboard kb;
-    
-    public StartMessageHandler(IKeyboard kb, AbstractHandler? next = null) : base(next)
-    {
-        this.kb = kb;
-    }
+
+    public StartMessageHandler(IKeyboard kb, AbstractHandler? next = null) : base(next) => this.kb = kb;
 
     protected override bool CanHandle(Update update) => update.Message is "/start" or "Начать";
 
@@ -25,7 +22,7 @@ public class StartMessageHandler : AbstractHandler
             await context.SaveChangesAsync();
         }
 
-        if (update.Messenger.SupportMarkdown)
+        if (update.Messenger.IsSupportMarkdown)
             await update.Messenger.SendMarkdownMessage(update.Chat, "*Выберите действие*", kb);
         else
             await update.Messenger.SendMessage(update.Chat, "Выберите действие", kb);

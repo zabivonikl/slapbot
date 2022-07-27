@@ -11,7 +11,7 @@ public class TelegramAdapter : IMessenger
 
     public TelegramAdapter(ITelegramBotClient client) => this.client = client;
 
-    public bool SupportMarkdown => true;
+    public bool IsSupportMarkdown => true;
 
     public async Task SetTyping(Chat chat) =>
         await client.SendChatActionAsync(

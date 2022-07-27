@@ -14,7 +14,7 @@ public class UnexpectedActionHandler : AbstractHandler
     protected override async Task _Handle(Update update)
     {
         await base._Handle(update);
-        if (update.Messenger.SupportMarkdown)
+        if (update.Messenger.IsSupportMarkdown)
             await update.Messenger.SendMarkdownMessage(update.Chat, "_Недопустимое действие_", kb);
         else
             await update.Messenger.SendMessage(update.Chat, "Недопустимое действие", kb);
