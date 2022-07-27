@@ -32,3 +32,5 @@
 *.pidb
 *.svclog
 *.scc
+
+*.db

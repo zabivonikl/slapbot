@@ -1,4 +1,5 @@
-﻿using User = MessengersClients.Types.Chat;
+﻿using System.ComponentModel.DataAnnotations;
+using MessengersClients.Types;
 
 namespace Database.Entities;
 
@@ -6,19 +7,16 @@ public class Slap
 {
     private long id;
 
-    public Slap(Game game, User from, User to)
-    {
-        Game = game;
-        From = from;
-        To = to;
-        Time = DateTime.Now;
-    }
+    public Slap() => Time = DateTime.Now;
 
-    public Game Game { get; }
+    [Required]
+    public Game Game { get; init; } = null!;
 
-    public User From { get; }
+    [Required]
+    public Chat From { get; init; } = null!;
 
-    public User To { get; }
+    [Required]
+    public Chat To { get; init; } = null!;
 
     public DateTime Time { get; }
 }

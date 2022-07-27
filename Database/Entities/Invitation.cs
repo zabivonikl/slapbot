@@ -1,18 +1,15 @@
-﻿using User = MessengersClients.Types.Chat;
+﻿using System.ComponentModel.DataAnnotations;
+using MessengersClients.Types;
 
 namespace Database.Entities;
 
 public class Invitation
 {
     private long id;
+    
+    [Required]
+    public Chat Chat { get; init; } = null!;
 
-    public Invitation(User user, Game game)
-    {
-        Game = game;
-        User = user;
-    }
-
-    public User User { get; }
-
-    public Game Game { get; }
+    [Required]
+    public Game Game { get; init; } = null!;
 }
