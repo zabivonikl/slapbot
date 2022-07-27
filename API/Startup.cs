@@ -1,12 +1,18 @@
 ﻿using API.Extensions;
+using Database;
 
 namespace API;
 
 public class Startup
 {
+    private readonly IConfiguration configuration;
+
+    public Startup(IConfiguration configuration) => this.configuration = configuration;
+
     public void ConfigureServices(IServiceCollection serviceCollection)
     {
-        serviceCollection.AddTelegramSingleton(Secrets.Telegram.ApiKey);
+        serviceCollection.AddDbContext<SlapBotDal>();
+        serviceCollection.AddTelegramSingleton(configuration["SlapBot:TelegramApiKey"]);
         serviceCollection.AddControllers().AddNewtonsoftJson();
     }
 
@@ -15,7 +21,7 @@ public class Startup
         if (env.IsDevelopment())
             app.UseDeveloperExceptionPage();
 
-        app.UseHttpsRedirection();  
+        app.UseHttpsRedirection();
         app.UseRouting();
         app.UseEndpoints(endpoints => endpoints.MapControllers());
     }

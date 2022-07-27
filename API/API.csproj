@@ -8,14 +8,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Secrets\Secrets.csproj" />
-        <ProjectReference Include="..\Telegram\Telegram.csproj" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.7"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.7"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
+        <PackageReference Include="Telegram.Bot" Version="18.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.7" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-        <PackageReference Include="Telegram.Bot" Version="18.0.0" />
+        <ProjectReference Include="..\Database\Database.csproj"/>
     </ItemGroup>
 
 </Project>

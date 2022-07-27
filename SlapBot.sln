@@ -2,7 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{2CF48E80-F7A1-464A-A20D-E54C866CF8C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Secrets", "Secrets\Secrets.csproj", "{D0B37954-823E-4471-9FC3-CD80110EFC1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotLogic", "BotLogic\BotLogic.csproj", "{5BB2A585-818C-4E73-99B1-27F0FED9CE1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessengersClients", "MessengersClients\MessengersClients.csproj", "{1D34A04E-6EDC-49CB-98B2-A88071A2409C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{C3533B90-7591-498E-AF0A-0A485B82FD5D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,9 +18,17 @@ Global
 		{2CF48E80-F7A1-464A-A20D-E54C866CF8C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CF48E80-F7A1-464A-A20D-E54C866CF8C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CF48E80-F7A1-464A-A20D-E54C866CF8C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D0B37954-823E-4471-9FC3-CD80110EFC1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D0B37954-823E-4471-9FC3-CD80110EFC1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D0B37954-823E-4471-9FC3-CD80110EFC1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D0B37954-823E-4471-9FC3-CD80110EFC1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BB2A585-818C-4E73-99B1-27F0FED9CE1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BB2A585-818C-4E73-99B1-27F0FED9CE1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BB2A585-818C-4E73-99B1-27F0FED9CE1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BB2A585-818C-4E73-99B1-27F0FED9CE1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D34A04E-6EDC-49CB-98B2-A88071A2409C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D34A04E-6EDC-49CB-98B2-A88071A2409C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D34A04E-6EDC-49CB-98B2-A88071A2409C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D34A04E-6EDC-49CB-98B2-A88071A2409C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3533B90-7591-498E-AF0A-0A485B82FD5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3533B90-7591-498E-AF0A-0A485B82FD5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3533B90-7591-498E-AF0A-0A485B82FD5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3533B90-7591-498E-AF0A-0A485B82FD5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

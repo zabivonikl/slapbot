@@ -8,9 +8,9 @@ namespace API.Controllers;
 [Route("[controller]/[action]")]
 public class Telegram : Controller
 {
-    private readonly ILogger<Telegram> logger;
-
     private readonly ITelegramBotClient botClient;
+
+    private readonly ILogger<Telegram> logger;
 
     public Telegram(ITelegramBotClient bot, ILogger<Telegram> logger)
     {
@@ -24,10 +24,13 @@ public class Telegram : Controller
     [HttpPost]
     public IActionResult Updates([FromBody] Update update)
     {
-        logger.LogDebug("{UpdateId}: {S}", update.Id, update.Type.ToString());
+        logger.LogInformation("{UpdateId}: {S}", update.Id, update.Message!.Chat.Username);
         Task.Factory.StartNew(
-            async () => await botClient.SendTextMessageAsync(
-                update.Message!.Chat, "Я робот-долбоёб"));
+                async () => await botClient.SendTextMessageAsync(
+                        update.Message!.Chat,
+                        "Я робот-долбоёб"
+                    )
+            );
         return Ok("ok");
     }
 
@@ -35,8 +38,8 @@ public class Telegram : Controller
     public async Task<IActionResult> SetWebhook()
     {
         await botClient.SetWebhookAsync(
-            "https://9563-178-69-229-14.ngrok.io/Telegram/Updates", 
-            dropPendingUpdates: true
+                "https://02f5-178-69-229-14.ngrok.io/Telegram/Updates",
+                dropPendingUpdates: true
             );
         return Ok();
     }
