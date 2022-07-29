@@ -59,6 +59,4 @@ public class Telegram : Controller
         logger.LogInformation("Webhook removed");
         return Ok();
     }
-
-    ~Telegram() => Task.Factory.StartNew(RemoveWebhook);
 }
