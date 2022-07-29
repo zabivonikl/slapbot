@@ -21,7 +21,7 @@ public class TelegramAdapter : IMessenger
 
     public async Task SendMessage(Chat chat, string text, IKeyboard kb, bool isMarkdown = false) =>
         await client.SendTextMessageAsync(
-            chat.Username is null ? chat.ChatId : $"@{chat.Username}",
+                chat.Username is null ? chat.ChatId : $"@{chat.Username}",
                 text,
                 isMarkdown ? ParseMode.MarkdownV2 : null,
                 replyMarkup: ((TelegramKeyboard)kb).GetKeyboard()

@@ -1,11 +1,8 @@
-﻿using System.Threading.Tasks;
-using BotLogic;
+﻿using BotLogic;
 using BotLogic.ChainResponsibilityLinks;
 using MessengersClients;
 using MessengersClients.KeyboardFactories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;

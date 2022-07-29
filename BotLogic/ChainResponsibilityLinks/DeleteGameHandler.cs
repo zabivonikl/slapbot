@@ -27,11 +27,12 @@ public class DeleteGameHandler : AbstractHandler
             context.Games.Remove(game);
             await context.SaveChangesAsync();
         }
-        
+
         await update.Messenger.SendMessage(
-            update.Chat, 
-            update.Messenger.IsSupportMarkdown ? game.GetMarkdownResult() : game.GetResult(), 
-            kb,
-            update.Messenger.IsSupportMarkdown);
+                update.Chat,
+                update.Messenger.IsSupportMarkdown ? game.GetMarkdownResult() : game.GetResult(),
+                kb,
+                update.Messenger.IsSupportMarkdown
+            );
     }
 }
