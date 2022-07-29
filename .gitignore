@@ -1,11 +1,5 @@
-﻿/Database/bin/
-/Database/obj/
-/MessengersClients/bin/
-/MessengersClients/obj/
-/BotLogic/bin/
-/BotLogic/obj/
-API/bin
-API/obj
+﻿bin
+obj
 /.idea
 
 *_i.c
