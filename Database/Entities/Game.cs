@@ -1,15 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-using MessengersClients.Types;
+﻿using MessengersClients.Types;
 
 namespace Database.Entities;
 
-public class Game
+public partial class Game
 {
     private long id;
 
-    [Required] public string? Punishment { get; set; }
+    public string? Punishment { get; set; }
 
-    public IEnumerable<Chat> Users { get; } = new List<Chat>();
+    public List<Chat> Users { get; } = new();
 
-    public IEnumerable<Slap> Slaps { get; } = new List<Slap>();
+    public List<Slap> Slaps { get; } = new();
 }

@@ -28,10 +28,14 @@ public class SlapBotDal : DbContext
                 game =>
                 {
                     game.HasKey("id");
-                    game.HasMany(g => g.Users).WithOne();
-                    game.HasMany(g => g.Slaps).WithOne(s => s.Game);
+                    game.Property(g => g.Punishment);
+                    game.HasMany(g => g.Users).WithOne()
+                        .OnDelete(DeleteBehavior.ClientCascade);
+                    game.HasMany(g => g.Slaps).WithOne(s => s.Game)
+                        .OnDelete(DeleteBehavior.ClientCascade);
                 }
             );
+
         modelBuilder.Entity<Invitation>(
                 invitation =>
                 {

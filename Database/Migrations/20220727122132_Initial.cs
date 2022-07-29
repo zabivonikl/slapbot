@@ -15,7 +15,7 @@ namespace Database.Migrations
                 {
                     id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Punishment = table.Column<string>(type: "TEXT", nullable: false)
+                    Punishment = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

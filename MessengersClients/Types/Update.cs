@@ -4,7 +4,7 @@ namespace MessengersClients.Types;
 
 public class Update
 {
-    public Update(IMessenger messenger, Chat chat, string message)
+    public Update(IMessenger messenger, Chat chat, string? message)
     {
         Messenger = messenger;
         Chat = chat;
@@ -15,5 +15,5 @@ public class Update
 
     public Chat Chat { get; }
 
-    public string Message { get; }
+    public string? Message { get; }
 }

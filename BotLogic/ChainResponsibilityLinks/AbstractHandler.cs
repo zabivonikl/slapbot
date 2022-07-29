@@ -1,12 +1,19 @@
-﻿using MessengersClients.Types;
+﻿using MessengersClients.KeyboardAdapters;
+using MessengersClients.Types;
 
 namespace BotLogic.ChainResponsibilityLinks;
 
 public abstract class AbstractHandler
 {
+    protected readonly IKeyboard kb;
+
     private readonly AbstractHandler? next;
 
-    protected AbstractHandler(AbstractHandler? next = null) => this.next = next;
+    protected AbstractHandler(IKeyboard kb, AbstractHandler? next = null)
+    {
+        this.kb = kb;
+        this.next = next;
+    }
 
     public async Task Handle(Update update)
     {

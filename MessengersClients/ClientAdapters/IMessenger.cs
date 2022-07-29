@@ -9,7 +9,5 @@ public interface IMessenger
 
     Task SetTyping(Chat chat);
 
-    Task SendMessage(Chat chat, string text, IKeyboard kb);
-
-    Task SendMarkdownMessage(Chat chat, string text, IKeyboard kb);
+    Task SendMessage(Chat chat, string text, IKeyboard kb, bool isMarkdown = false);
 }

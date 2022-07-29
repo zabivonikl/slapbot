@@ -1,9 +1,11 @@
-﻿using BotLogic;
+﻿using System.Threading.Tasks;
+using BotLogic;
 using BotLogic.ChainResponsibilityLinks;
 using MessengersClients;
-using MessengersClients.KeyboardAdapters;
 using MessengersClients.KeyboardFactories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -14,17 +16,20 @@ namespace API.Controllers;
 [Route("[controller]/[action]")]
 public class Telegram : Controller
 {
+    private readonly string baseUrl;
+
     private readonly ITelegramBotClient botClient;
 
     private readonly AbstractHandler eventHandler;
 
     private readonly ILogger<Telegram> logger;
 
-    public Telegram(ITelegramBotClient bot, ILogger<Telegram> logger)
+    public Telegram(IConfiguration configuration, ITelegramBotClient bot, ILogger<Telegram> logger)
     {
         eventHandler = ChainResponsibilityFactory.GetChain(new TelegramKeyboardFactory());
         botClient = bot;
         this.logger = logger;
+        baseUrl = configuration["Url"];
     }
 
     [HttpGet("~/[controller]")]
@@ -33,7 +38,7 @@ public class Telegram : Controller
     [HttpPost]
     public async Task<IActionResult> Updates([FromBody] Update update)
     {
-        logger.LogInformation("{UpdateId}: {S}", update.Id, update.Message!.Chat.Username);
+        logger.LogInformation("{UpdateId}: {S}", update.Id, update.Type.ToString());
         if (update.Type == UpdateType.Message)
             await eventHandler.Handle(update.GetAdapter(botClient));
         return Ok("ok");
@@ -43,9 +48,10 @@ public class Telegram : Controller
     public async Task<IActionResult> SetWebhook()
     {
         await botClient.SetWebhookAsync(
-                "https://9106-178-69-229-14.ngrok.io/Telegram/Updates",
+                $"{baseUrl}/Telegram/Updates",
                 dropPendingUpdates: true
             );
+        logger.LogInformation("Set webhook for URL: {S}", $"{baseUrl}/Telegram/Updates");
         return Ok();
     }
 
@@ -53,6 +59,9 @@ public class Telegram : Controller
     public async Task<IActionResult> RemoveWebhook()
     {
         await botClient.DeleteWebhookAsync();
+        logger.LogInformation("Webhook removed");
         return Ok();
     }
+
+    ~Telegram() => Task.Factory.StartNew(RemoveWebhook);
 }
