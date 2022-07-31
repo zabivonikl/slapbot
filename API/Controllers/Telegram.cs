@@ -33,11 +33,11 @@ public class Telegram : Controller
     public async Task<string> GetMe() => (await botClient.GetMeAsync()).ToString();
 
     [HttpPost]
-    public async Task<IActionResult> Updates([FromBody] Update update)
+    public IActionResult Updates([FromBody] Update update)
     {
         logger.LogInformation("{UpdateId}: {S}", update.Id, update.Type.ToString());
         if (update.Type == UpdateType.Message)
-            await eventHandler.Handle(update.GetAdapter(botClient));
+            new Task(() => eventHandler.Handle(update.GetAdapter(botClient))).Start();
         return Ok("ok");
     }
 

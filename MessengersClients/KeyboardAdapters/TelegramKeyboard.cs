@@ -16,10 +16,17 @@ public class TelegramKeyboard : IKeyboard, ICloneable
 
     public bool IsInline { get; }
 
-    public void AddButton(string text, ButtonColor _ = ButtonColor.Primary) =>
+    public IKeyboard AddButton(string text, ButtonColor _ = ButtonColor.Primary)
+    {
         keyboard.Last().Add(IsInline ? new InlineKeyboardButton(text) : new KeyboardButton(text));
+        return this;
+    }
 
-    public void AddLine() => keyboard.Add(new List<IKeyboardButton>());
+    public IKeyboard AddLine()
+    {
+        keyboard.Add(new List<IKeyboardButton>());
+        return this;
+    }
 
     public IReplyMarkup GetKeyboard()
     {

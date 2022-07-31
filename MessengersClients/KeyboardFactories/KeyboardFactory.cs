@@ -10,11 +10,5 @@ public abstract class KeyboardFactory
 
     protected static IKeyboard GetEmpty(IKeyboard kb) => kb;
 
-    protected static IKeyboard GetStartKeyboard(IKeyboard kb)
-    {
-        kb.AddButton("Создать игру", ButtonColor.Positive);
-        kb.AddLine();
-        kb.AddButton("Ждать приглашение", ButtonColor.Secondary);
-        return kb;
-    }
+    protected static IKeyboard GetStartKeyboard(IKeyboard kb) => kb.AddButton("Вступить в игру", ButtonColor.Positive);
 }

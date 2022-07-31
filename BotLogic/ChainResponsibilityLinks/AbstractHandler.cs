@@ -1,17 +1,18 @@
 ﻿using MessengersClients.KeyboardAdapters;
+using MessengersClients.KeyboardFactories;
 using MessengersClients.Types;
 
 namespace BotLogic.ChainResponsibilityLinks;
 
 public abstract class AbstractHandler
 {
-    protected readonly IKeyboard kb;
+    protected readonly KeyboardFactory keyboardFactory;
 
     private readonly AbstractHandler? next;
 
-    protected AbstractHandler(IKeyboard kb, AbstractHandler? next = null)
+    protected AbstractHandler(KeyboardFactory keyboardFactory, AbstractHandler? next = null)
     {
-        this.kb = kb;
+        this.keyboardFactory = keyboardFactory;
         this.next = next;
     }
 

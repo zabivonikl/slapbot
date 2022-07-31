@@ -2,13 +2,13 @@
 
 public class Chat
 {
-    public Chat(long chatId, string? username = null)
+    public Chat(long id, string? title = null)
     {
-        ChatId = chatId;
-        Username = username;
+        Id = id;
+        Title = title;
     }
 
-    public long ChatId { get; }
+    public long Id { get; }
 
-    public string? Username { get; }
+    public string? Title { get; }
 }

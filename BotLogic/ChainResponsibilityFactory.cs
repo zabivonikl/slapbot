@@ -7,10 +7,10 @@ public static class ChainResponsibilityFactory
 {
     public static AbstractHandler GetChain(KeyboardFactory keyboardFactory)
     {
-        var unexpectedActionHandler = new UnexpectedActionHandler(keyboardFactory.GetEmpty());
-        var deleteGameHandler = new DeleteGameHandler(keyboardFactory.GetStartKeyboard(), unexpectedActionHandler);
-        var createGameHandler = new CreateGameHandler(keyboardFactory.GetEmpty(), deleteGameHandler);
-        var startMessageHandler = new StartMessageHandler(keyboardFactory.GetStartKeyboard(), createGameHandler);
-        return new SetPunishmentHandler(keyboardFactory.GetEmpty(), startMessageHandler);
+        var unexpectedActionHandler = new UnexpectedActionHandler(keyboardFactory);
+        var deleteGameHandler = new DeleteGameHandler(keyboardFactory, unexpectedActionHandler);
+        var createGameHandler = new CreateGameHandler(keyboardFactory, deleteGameHandler);
+        var startMessageHandler = new StartMessageHandler(keyboardFactory, createGameHandler);
+        return new SetPunishmentHandler(keyboardFactory, startMessageHandler);
     }
 }

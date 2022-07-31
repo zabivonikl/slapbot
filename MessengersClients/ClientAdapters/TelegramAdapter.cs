@@ -15,13 +15,13 @@ public class TelegramAdapter : IMessenger
 
     public async Task SetTyping(Chat chat) =>
         await client.SendChatActionAsync(
-                chat.Username is null ? chat.ChatId : $"@{chat.Username}",
+                chat.Id,
                 ChatAction.Typing
             );
 
     public async Task SendMessage(Chat chat, string text, IKeyboard kb, bool isMarkdown = false) =>
         await client.SendTextMessageAsync(
-                chat.Username is null ? chat.ChatId : $"@{chat.Username}",
+                chat.Id,
                 text,
                 isMarkdown ? ParseMode.MarkdownV2 : null,
                 replyMarkup: ((TelegramKeyboard)kb).GetKeyboard()

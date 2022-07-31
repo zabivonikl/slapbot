@@ -1,6 +1,7 @@
 ﻿using Database;
 using Database.Entities;
 using MessengersClients.KeyboardAdapters;
+using MessengersClients.KeyboardFactories;
 using MessengersClients.Types;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,7 @@ namespace BotLogic.ChainResponsibilityLinks;
 
 public class DeleteGameHandler : AbstractHandler
 {
-    public DeleteGameHandler(IKeyboard kb, AbstractHandler? next = null) : base(kb, next)
+    public DeleteGameHandler(KeyboardFactory keyboardFactory, AbstractHandler? next = null) : base(keyboardFactory, next)
     {
     }
 
@@ -21,8 +22,7 @@ public class DeleteGameHandler : AbstractHandler
         await using (var context = new SlapBotDal())
         {
             game = await context.Games
-                .Include(g => g.Users)
-                .Where(g => g.Users.Contains(update.Chat))
+                .Where(g => g.Id == update.Chat.Id)
                 .FirstAsync();
             context.Games.Remove(game);
             await context.SaveChangesAsync();
@@ -31,7 +31,7 @@ public class DeleteGameHandler : AbstractHandler
         await update.Messenger.SendMessage(
                 update.Chat,
                 update.Messenger.IsSupportMarkdown ? game.GetMarkdownResult() : game.GetResult(),
-                kb,
+                keyboardFactory.GetStartKeyboard(),
                 update.Messenger.IsSupportMarkdown
             );
     }

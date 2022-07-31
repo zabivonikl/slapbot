@@ -4,7 +4,7 @@ public interface IKeyboard
 {
     bool IsInline { get; }
 
-    void AddButton(string text, ButtonColor color = ButtonColor.Primary);
+    IKeyboard AddButton(string text, ButtonColor color = ButtonColor.Primary);
 
-    void AddLine();
+    IKeyboard AddLine();
 }

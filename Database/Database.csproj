@@ -7,26 +7,32 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\MessengersClients\MessengersClients.csproj"/>
+        <ProjectReference Include="..\MessengersClients\MessengersClients.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.7"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Design" Version="1.1.6"/>
-        <PackageReference Include="SQLitePCLRaw.bundle_winsqlite3" Version="2.1.0"/>
-        <PackageReference Include="SQLitePCLRaw.core" Version="2.1.0"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="6.0.7" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Design" Version="1.1.6" />
+        <PackageReference Include="SQLitePCLRaw.bundle_winsqlite3" Version="2.1.0" />
+        <PackageReference Include="SQLitePCLRaw.core" Version="2.1.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="obj\**"/>
+        <Compile Remove="obj\**" />
+        <Compile Remove="Migrations\20220731152903_v0.2.2.cs" />
+        <Compile Remove="Migrations\20220731152903_v0.2.2.Designer.cs" />
+        <Compile Remove="Migrations\20220731150732_v0.2.1.cs" />
+        <Compile Remove="Migrations\20220731150732_v0.2.1.Designer.cs" />
+        <Compile Remove="Migrations\20220731134124_v0.2.cs" />
+        <Compile Remove="Migrations\20220731134124_v0.2.Designer.cs" />
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Remove="obj\**"/>
+        <EmbeddedResource Remove="obj\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="obj\**"/>
+        <None Remove="obj\**" />
     </ItemGroup>
 
 </Project>
