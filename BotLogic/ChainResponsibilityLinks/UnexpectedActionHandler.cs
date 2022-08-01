@@ -8,7 +8,7 @@ public class UnexpectedActionHandler : AbstractHandler
     public UnexpectedActionHandler(KeyboardFactory keyboardFactory, AbstractHandler? next = null) : base(keyboardFactory, next)
     {
     }
-    
+
     protected override bool CanHandle(Update update) => true;
 
     protected override async Task _Handle(Update update)

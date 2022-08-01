@@ -11,9 +11,9 @@ public class Game
         Title = title;
     }
 
-    public long Id { get; private init; }
-    
-    public string? Title { get; private init; }
+    public long Id { get; private set; }
+
+    public string? Title { get; private set; }
 
     public string? Punishment { get; set; }
 
@@ -27,8 +27,14 @@ public class Game
         Slaps.GroupBy(s => s.From).ToDictionary(g => g.Key, g => g.Count());
 
     public string GetMarkdownResult() =>
-        GetScore().Aggregate("*Счёт*:\n", (current, userScore) => current + $"{userScore.Key}: _{userScore.Value}_\n");
+        GetScore().Aggregate(
+                "*Счёт*:\n",
+                (current, userScore) => current + $"{userScore.Key}: _{userScore.Value} {Punishment}_\n"
+            );
 
     public string GetResult() =>
-        GetScore().Aggregate("Счёт:\n", (current, userScore) => current + $"{userScore.Key}: {userScore.Value}\n");
+        GetScore().Aggregate(
+                "Счёт:\n",
+                (current, userScore) => current + $"{userScore.Key}: {userScore.Value} {Punishment}\n"
+            );
 }

@@ -9,7 +9,7 @@ namespace BotLogic.ChainResponsibilityLinks;
 public class CreateGameHandler : AbstractHandler
 {
     private Update handleableUpdate = null!;
-    
+
     public CreateGameHandler(KeyboardFactory keyboardFactory, AbstractHandler? next = null) : base(keyboardFactory, next)
     {
     }
@@ -24,12 +24,18 @@ public class CreateGameHandler : AbstractHandler
         {
             await TryCreateGameOrAddUser();
             await update.Messenger.SendMessage(
-                update.Chat, "Игра создана! Введите наказание:", keyboardFactory.GetEmpty());
+                    update.Chat,
+                    "Игра создана! Введите наказание:",
+                    keyboardFactory.GetEmpty()
+                );
         }
         catch (InvalidOperationException)
         {
             await update.Messenger.SendMessage(
-                update.Chat, "Вы уже учавствуете", keyboardFactory.GetStartKeyboard());
+                    update.Chat,
+                    "Вы уже учавствуете",
+                    keyboardFactory.GetStartKeyboard()
+                );
         }
     }
 
@@ -53,7 +59,7 @@ public class CreateGameHandler : AbstractHandler
         var game = await context.Games.SingleAsync(g => g.Id == handleableUpdate.Chat.Id);
         if (!context.Users.Any(u => u.Id == handleableUpdate.User.Id))
             await CreateUser(context, handleableUpdate.User);
-        else 
+        else
             throw new InvalidOperationException("User already exist");
         game.Users.Add(handleableUpdate.User);
         await context.SaveChangesAsync();

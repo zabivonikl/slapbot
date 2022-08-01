@@ -57,7 +57,7 @@ namespace Database.Migrations
 
                     b.HasIndex("ToId");
 
-                    b.ToTable("Slap");
+                    b.ToTable("Slaps");
                 });
 
             modelBuilder.Entity("MessengersClients.Types.User", b =>

@@ -1,5 +1,4 @@
 ﻿using Database;
-using MessengersClients.KeyboardAdapters;
 using MessengersClients.KeyboardFactories;
 using MessengersClients.Types;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +27,12 @@ public class SetPunishmentHandler : AbstractHandler
             await context.SaveChangesAsync();
         }
 
-        await update.Messenger.SendMessage(update.Chat, GetResponse(update), keyboardFactory.GetStartKeyboard(), update.Messenger.IsSupportMarkdown);
+        await update.Messenger.SendMessage(
+                update.Chat,
+                GetResponse(update),
+                keyboardFactory.GetStartKeyboard(),
+                update.Messenger.IsSupportMarkdown
+            );
     }
 
     private static string GetResponse(Update update) =>

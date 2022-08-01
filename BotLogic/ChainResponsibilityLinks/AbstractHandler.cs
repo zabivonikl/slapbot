@@ -1,5 +1,4 @@
-﻿using MessengersClients.KeyboardAdapters;
-using MessengersClients.KeyboardFactories;
+﻿using MessengersClients.KeyboardFactories;
 using MessengersClients.Types;
 
 namespace BotLogic.ChainResponsibilityLinks;
@@ -18,10 +17,17 @@ public abstract class AbstractHandler
 
     public async Task Handle(Update update)
     {
-        if (CanHandle(update))
-            await _Handle(update);
-        else
-            await next!.Handle(update);
+        try
+        {
+            if (CanHandle(update))
+                await _Handle(update);
+            else
+                await next!.Handle(update);
+        }
+        catch (Exception err)
+        {
+            Console.WriteLine($"{err.GetType().FullName}: {err.Message}");
+        }
     }
 
     protected abstract bool CanHandle(Update update);

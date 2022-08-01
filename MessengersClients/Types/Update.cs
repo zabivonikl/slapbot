@@ -15,7 +15,7 @@ public class Update
     public IMessenger Messenger { get; }
 
     public Chat Chat { get; }
-    
+
     public User User { get; }
 
     public string? Message { get; }

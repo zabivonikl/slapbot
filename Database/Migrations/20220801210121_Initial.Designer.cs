@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Database.Migrations
 {
     [DbContext(typeof(SlapBotDal))]
-    [Migration("20220731193331_v0.2.4")]
-    partial class v024
+    [Migration("20220801210121_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,7 +59,7 @@ namespace Database.Migrations
 
                     b.HasIndex("ToId");
 
-                    b.ToTable("Slap");
+                    b.ToTable("Slaps");
                 });
 
             modelBuilder.Entity("MessengersClients.Types.User", b =>

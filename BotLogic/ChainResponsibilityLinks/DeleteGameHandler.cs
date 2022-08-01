@@ -1,6 +1,5 @@
 ﻿using Database;
 using Database.Entities;
-using MessengersClients.KeyboardAdapters;
 using MessengersClients.KeyboardFactories;
 using MessengersClients.Types;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +21,8 @@ public class DeleteGameHandler : AbstractHandler
         await using (var context = new SlapBotDal())
         {
             game = await context.Games
+                .Include(g => g.Slaps)
+                .Include(g => g.Users)
                 .Where(g => g.Id == update.Chat.Id)
                 .FirstAsync();
             context.Games.Remove(game);

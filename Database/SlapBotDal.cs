@@ -7,8 +7,10 @@ namespace Database;
 public class SlapBotDal : DbContext
 {
     public DbSet<Game> Games { get; set; }
-    
+
     public DbSet<User> Users { get; set; }
+
+    public DbSet<Slap> Slaps { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
         optionsBuilder.UseSqlite(@"Data Source=SlapBotDB.db");

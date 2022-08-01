@@ -8,8 +8,11 @@ public static class ChainResponsibilityFactory
     public static AbstractHandler GetChain(KeyboardFactory keyboardFactory)
     {
         var unexpectedActionHandler = new UnexpectedActionHandler(keyboardFactory);
-        var deleteGameHandler = new DeleteGameHandler(keyboardFactory, unexpectedActionHandler);
-        var createGameHandler = new CreateGameHandler(keyboardFactory, deleteGameHandler);
+        var editPunishmentHandler = new EditPunishmentHandler(keyboardFactory, unexpectedActionHandler);
+        var deleteGameHandler = new DeleteGameHandler(keyboardFactory, editPunishmentHandler);
+        var addSlapHandler = new AddSlapHandler(keyboardFactory, deleteGameHandler);
+        var startGameHandler = new StartGameHandler(keyboardFactory, addSlapHandler);
+        var createGameHandler = new CreateGameHandler(keyboardFactory, startGameHandler);
         var startMessageHandler = new StartMessageHandler(keyboardFactory, createGameHandler);
         return new SetPunishmentHandler(keyboardFactory, startMessageHandler);
     }
