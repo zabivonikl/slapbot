@@ -12,7 +12,8 @@ public abstract class KeyboardFactory
 
     protected static IKeyboard GetEmpty(IKeyboard kb) => kb;
 
-    protected static IKeyboard GetStartKeyboard(IKeyboard kb) => kb.AddButton("Вступить в игру", ButtonColor.Positive).AddLine().AddButton("Начать игру");
+    protected static IKeyboard GetStartKeyboard(IKeyboard kb) =>
+        kb.AddButton("Вступить в игру", ButtonColor.Positive).AddLine().AddButton("Начать игру");
 
     protected static IKeyboard GetSlapKeyboard(IKeyboard kb, IEnumerable<string> usernames)
     {

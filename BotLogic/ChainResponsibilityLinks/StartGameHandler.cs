@@ -23,13 +23,21 @@ public class StartGameHandler : AbstractHandler
         }
         catch (InvalidOperationException)
         {
-            await update.Messenger.SendMessage(update.Chat, "Игра не найдена. Нажмите \"Вступить в игру\"", keyboardFactory.GetStartKeyboard());
+            await update.Messenger.SendMessage(
+                    update.Chat,
+                    "Игра не найдена. Нажмите \"Вступить в игру\"",
+                    keyboardFactory.GetStartKeyboard()
+                );
         }
     }
 
     private async Task FindGame(SlapBotDal context, Update update)
     {
         var game = await context.Games.Include(g => g.Users).FirstAsync(g => g.Id == update.Chat.Id);
-        await update.Messenger.SendMessage(update.Chat, "Игра запущена!", keyboardFactory.GetSlapKeyboard(game.Usernames));
+        await update.Messenger.SendMessage(
+                update.Chat,
+                "Игра запущена!",
+                keyboardFactory.GetSlapKeyboard(game.Usernames)
+            );
     }
 }

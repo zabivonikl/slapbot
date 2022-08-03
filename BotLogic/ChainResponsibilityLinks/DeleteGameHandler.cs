@@ -17,23 +17,32 @@ public class DeleteGameHandler : AbstractHandler
     protected override async Task _Handle(Update update)
     {
         await base._Handle(update);
-        Game game;
-        await using (var context = new SlapBotDal())
+        try
         {
-            game = await context.Games
-                .Include(g => g.Slaps)
-                .Include(g => g.Users)
-                .Where(g => g.Id == update.Chat.Id)
-                .FirstAsync();
-            context.Games.Remove(game);
-            await context.SaveChangesAsync();
+            var game = await DeleteGame(update);
+            await update.Messenger.SendMessage(
+                    update.Chat,
+                    update.Messenger.IsSupportMarkdown ? game.GetMarkdownResult() : game.GetResult(),
+                    keyboardFactory.GetStartKeyboard(),
+                    update.Messenger.IsSupportMarkdown
+                );
         }
+        catch (InvalidOperationException)
+        {
+            await update.Messenger.SendMessage(update.Chat, "Игра не найдена", keyboardFactory.GetStartKeyboard());
+        }
+    }
 
-        await update.Messenger.SendMessage(
-                update.Chat,
-                update.Messenger.IsSupportMarkdown ? game.GetMarkdownResult() : game.GetResult(),
-                keyboardFactory.GetStartKeyboard(),
-                update.Messenger.IsSupportMarkdown
-            );
+    private static async Task<Game> DeleteGame(Update update)
+    {
+        await using var context = new SlapBotDal();
+        var game = await context.Games
+            .Include(g => g.Slaps)
+            .Include(g => g.Users)
+            .Where(g => g.Id == update.Chat.Id)
+            .FirstAsync();
+        context.Games.Remove(game);
+        await context.SaveChangesAsync();
+        return game;
     }
 }

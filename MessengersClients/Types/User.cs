@@ -8,7 +8,7 @@ public class User
         FirstName = firstName;
     }
 
-    public long Id { get; private set; }
+    public long Id { get; init; }
 
-    public string FirstName { get; private set; }
+    public string FirstName { get; init; }
 }

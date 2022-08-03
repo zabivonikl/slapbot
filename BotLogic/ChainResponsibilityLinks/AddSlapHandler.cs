@@ -1,5 +1,6 @@
 ﻿using Database;
 using Database.Entities;
+using MessengersClients;
 using MessengersClients.KeyboardFactories;
 using MessengersClients.Types;
 using Microsoft.EntityFrameworkCore;
@@ -28,7 +29,11 @@ public class AddSlapHandler : AbstractHandler
                     update.Chat,
                     $"Пользователь {update.Message![2..]} не найден",
                     keyboardFactory.GetSlapKeyboard(
-                        context.Games.Include(g => g.Users).First(g => g.Id == update.Chat.Id).Usernames)
+                            context.Games
+                                .Include(g => g.Users)
+                                .First(g => g.Id == update.Chat.Id)
+                                .Usernames
+                        )
                 );
         }
     }
@@ -47,10 +52,12 @@ public class AddSlapHandler : AbstractHandler
         await context.SaveChangesAsync();
 
         await update.Messenger.SendMessage(
-            update.Chat, 
-            update.Messenger.IsSupportMarkdown ? $"_{game.Punishment!}_ засчитано" : $"{game.Punishment!} засчитано", 
-            keyboardFactory.GetSlapKeyboard(game.Usernames),
-            update.Messenger.IsSupportMarkdown);
+                update.Chat,
+                update.Messenger.IsSupportMarkdown ? $"_{game.Punishment!.EscapeSymbols()}_ засчитано"
+                    : $"{game.Punishment!} засчитано",
+                keyboardFactory.GetSlapKeyboard(game.Usernames),
+                update.Messenger.IsSupportMarkdown
+            );
     }
 
     private static User GetUser(Game game, string firstName) => game.Users.First(u => u.FirstName == firstName);

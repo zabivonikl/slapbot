@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using MessengersClients;
 using MessengersClients.Types;
 
 namespace Database.Entities;
@@ -11,9 +12,9 @@ public class Game
         Title = title;
     }
 
-    public long Id { get; private set; }
+    public long Id { get; init; }
 
-    public string? Title { get; private set; }
+    public string? Title { get; init; }
 
     public string? Punishment { get; set; }
 
@@ -29,7 +30,9 @@ public class Game
     public string GetMarkdownResult() =>
         GetScore().Aggregate(
                 "*Счёт*:\n",
-                (current, userScore) => current + $"{userScore.Key}: _{userScore.Value} {Punishment}_\n"
+                (current, userScore) =>
+                    current +
+                    $"{userScore.Key.FirstName.EscapeSymbols()}: _{userScore.Value} {Punishment!.EscapeSymbols()}_\n"
             );
 
     public string GetResult() =>

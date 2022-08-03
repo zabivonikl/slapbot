@@ -5,7 +5,10 @@ namespace BotLogic.ChainResponsibilityLinks;
 
 public class UnexpectedActionHandler : AbstractHandler
 {
-    public UnexpectedActionHandler(KeyboardFactory keyboardFactory, AbstractHandler? next = null) : base(keyboardFactory, next)
+    public UnexpectedActionHandler(KeyboardFactory keyboardFactory, AbstractHandler? next = null) : base(
+            keyboardFactory,
+            next
+        )
     {
     }
 

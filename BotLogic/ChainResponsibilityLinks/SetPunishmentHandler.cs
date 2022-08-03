@@ -1,4 +1,5 @@
 ﻿using Database;
+using MessengersClients;
 using MessengersClients.KeyboardFactories;
 using MessengersClients.Types;
 using Microsoft.EntityFrameworkCore;
@@ -36,6 +37,7 @@ public class SetPunishmentHandler : AbstractHandler
     }
 
     private static string GetResponse(Update update) =>
-        update.Messenger.IsSupportMarkdown ? $"Установлено наказание: _{update.Message?.ToLower() ?? "Не указано"}_"
+        update.Messenger.IsSupportMarkdown
+            ? $"Установлено наказание: _{update.Message?.ToLower().EscapeSymbols() ?? "Не указано"}_"
             : $"Установлено наказание: {update.Message?.ToLower() ?? "Не указано"}";
 }

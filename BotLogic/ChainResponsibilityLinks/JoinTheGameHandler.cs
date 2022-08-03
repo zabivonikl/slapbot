@@ -1,4 +1,5 @@
-﻿using Database;
+﻿using System.Data;
+using Database;
 using Database.Entities;
 using MessengersClients.KeyboardFactories;
 using MessengersClients.Types;
@@ -20,32 +21,41 @@ public class CreateGameHandler : AbstractHandler
     {
         await base._Handle(update);
         handleableUpdate = update;
+        await using var context = new SlapBotDal();
         try
         {
-            await TryCreateGameOrAddUser();
+            await TryCreateGame(context);
+            await FindGameAndAddUser(context);
             await update.Messenger.SendMessage(
                     update.Chat,
                     "Игра создана! Введите наказание:",
                     keyboardFactory.GetEmpty()
                 );
         }
-        catch (InvalidOperationException)
+        catch (InvalidOperationException ex) when(ex.Message == "Game already exist")
+        {
+            await FindGameAndAddUser(context);
+            await update.Messenger.SendMessage(
+                    update.Chat,
+                    "Вы вступили в игру",
+                    keyboardFactory.GetStartKeyboard()
+                );
+        }
+        catch (InvalidOperationException ex) when(ex.Message == "User already exist")
         {
             await update.Messenger.SendMessage(
                     update.Chat,
-                    "Вы уже учавствуете",
+                    "Вы уже учавствуете. Покиньте предыдущие игры.",
                     keyboardFactory.GetStartKeyboard()
                 );
         }
     }
 
-    private async Task TryCreateGameOrAddUser()
+    private async Task TryCreateGame(SlapBotDal context)
     {
-        await using var context = new SlapBotDal();
-        if (!context.Games.Any(g => g.Id == handleableUpdate.Chat.Id))
-            await CreateGame(context);
-
-        await FindGameAndAddUser(context);
+        if (context.Games.Any(g => g.Id == handleableUpdate.Chat.Id))
+            throw new InvalidOperationException("Game already exist");
+        await CreateGame(context);
     }
 
     private async Task CreateGame(SlapBotDal context)
@@ -57,7 +67,7 @@ public class CreateGameHandler : AbstractHandler
     private async Task FindGameAndAddUser(SlapBotDal context)
     {
         var game = await context.Games.SingleAsync(g => g.Id == handleableUpdate.Chat.Id);
-        if (!context.Users.Any(u => u.Id == handleableUpdate.User.Id))
+        if (game.Users.All(u => u.Id != handleableUpdate.User.Id))
             await CreateUser(context, handleableUpdate.User);
         else
             throw new InvalidOperationException("User already exist");
