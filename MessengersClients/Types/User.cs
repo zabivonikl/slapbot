@@ -1,6 +1,6 @@
 ﻿namespace MessengersClients.Types;
 
-public partial class User
+public class User
 {
     public User(long id, string firstName)
     {

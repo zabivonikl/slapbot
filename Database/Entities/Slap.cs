@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using MessengersClients.Types;
 
 namespace Database.Entities;
 
@@ -7,13 +6,20 @@ public class Slap
 {
     private long id;
 
-    public Slap() => Time = DateTime.Now;
+    private Slap()
+    {
+    }
 
-    [Required] public Game Game { get; init; } = null!;
+    public Slap(Game game, User from, User to)
+    {
+        Game = game;
+        From = from;
+        To = to;
+    }
 
-    [Required] public User From { get; init; } = null!;
+    [Required] public Game Game { get; }
 
-    [Required] public User To { get; init; } = null!;
+    [Required] public User From { get; }
 
-    public DateTime Time { get; }
+    [Required] public User To { get; }
 }

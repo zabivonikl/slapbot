@@ -1,20 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using MessengersClients;
-using MessengersClients.Types;
 
 namespace Database.Entities;
 
 public class Game
 {
-    public Game(long id, string? title = null)
+    private Game()
     {
-        Id = id;
-        Title = title;
     }
 
-    public long Id { get; init; }
+    public Game(long id) => Id = id;
 
-    public string? Title { get; init; }
+    public long Id { get; }
 
     public string? Punishment { get; set; }
 

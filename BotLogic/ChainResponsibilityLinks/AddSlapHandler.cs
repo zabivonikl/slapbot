@@ -65,7 +65,7 @@ public class AddSlapHandler : AbstractHandler
 
     private static Slap CreateSlap(SlapBotDal context, Game game, User from, User to)
     {
-        var slap = new Slap { From = from, Game = game, To = to };
+        var slap = new Slap(game, from, to);
         context.Slaps.Add(slap);
         return slap;
     }

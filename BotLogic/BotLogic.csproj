@@ -7,20 +7,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Database\Database.csproj" />
-        <ProjectReference Include="..\MessengersClients\MessengersClients.csproj" />
+        <ProjectReference Include="..\Database\Database.csproj"/>
+        <ProjectReference Include="..\MessengersClients\MessengersClients.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Remove="obj\**" />
+        <Compile Remove="obj\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Remove="obj\**" />
+        <EmbeddedResource Remove="obj\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="obj\**" />
+        <None Remove="obj\**"/>
     </ItemGroup>
 
 </Project>

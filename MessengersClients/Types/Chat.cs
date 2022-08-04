@@ -8,7 +8,7 @@ public class Chat
         Title = title;
     }
 
-    public long Id { get; init; }
+    public long Id { get; }
 
-    public string? Title { get; init; }
+    public string? Title { get; }
 }

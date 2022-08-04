@@ -22,8 +22,9 @@ public class UnexpectedActionHandler : AbstractHandler
         await using var context = new SlapBotDal();
         var game = context.Games.Include(g => g.Users).FirstOrDefault(g => g.Id == update.Chat.Id);
         await update.Messenger.SendMessage(
-            update.Chat, 
-            "Недопустимое действие", 
-            game == null ? keyboardFactory.GetStartKeyboard() : keyboardFactory.GetSlapKeyboard(game.Usernames));
+                update.Chat,
+                "Недопустимое действие",
+                game == null ? keyboardFactory.GetStartKeyboard() : keyboardFactory.GetSlapKeyboard(game.Usernames)
+            );
     }
 }

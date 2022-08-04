@@ -1,6 +1,5 @@
 ﻿using Database.Entities;
 using Microsoft.EntityFrameworkCore;
-using User = Database.Entities.User;
 
 namespace Database;
 
@@ -20,6 +19,7 @@ public class SlapBotDal : DbContext
         modelBuilder.Entity<Game>(
                 game =>
                 {
+                    game.HasKey(g => g.Id);
                     game.HasMany(g => g.Users).WithMany(u => u.Games);
                     game.HasMany(g => g.Slaps).WithOne(s => s.Game)
                         .OnDelete(DeleteBehavior.Cascade);
