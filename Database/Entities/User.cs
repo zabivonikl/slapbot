@@ -20,5 +20,5 @@ public class User
         private set => user.FirstName = value;
     }
 
-    public List<Game> Games { get; set; } = new();
+    public IEnumerable<Game> Games { get; } = new List<Game>();
 }
