@@ -4,5 +4,5 @@ namespace MessengersClients.KeyboardFactories;
 
 public class TelegramKeyboardFactory : KeyboardFactory
 {
-    public TelegramKeyboardFactory() => keyboardProto = new TelegramKeyboard();
+    public TelegramKeyboardFactory() : base(new TelegramKeyboard()) {}
 }

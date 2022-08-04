@@ -4,7 +4,9 @@ namespace MessengersClients.KeyboardFactories;
 
 public abstract class KeyboardFactory
 {
-    protected IKeyboard keyboardProto = null!;
+    private readonly IKeyboard keyboardProto;
+
+    protected KeyboardFactory(IKeyboard keyboardProto) => this.keyboardProto = keyboardProto;
 
     private IKeyboard GetProtoCopy() => (IKeyboard)keyboardProto.Clone();
 
