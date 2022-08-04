@@ -24,6 +24,14 @@ public class AddSlapHandler : AbstractHandler
         {
             await AddSlap(context, update);
         }
+        catch (InvalidOperationException ex) when(ex.Message == "User isn't in game")
+        {
+            await update.Messenger.SendMessage(
+                    update.Chat,
+                    "Вступи в игру, тупой читер!",
+                    keyboardFactory.GetStartKeyboard()
+                );
+        }
         catch (InvalidOperationException)
         {
             await update.Messenger.SendMessage(
@@ -43,10 +51,9 @@ public class AddSlapHandler : AbstractHandler
     {
         var game = await context.Games
             .Include(g => g.Users)
-            .Include(g => g.Slaps)
             .FirstAsync(g => g.Id == update.Chat.Id);
 
-        var from = await context.Users.FirstAsync(u => u.Id == update.User.Id);
+        var from = game.Users.Find(u => u.Id == update.User.Id) ?? throw new InvalidOperationException("User isn't in game");
         var to = GetUser(game, update.Message![2..]);
         var slap = CreateSlap(context, game, from, to);
         game.Slaps.Add(slap);
