@@ -25,7 +25,7 @@ public class Game
     [NotMapped] public IEnumerable<string> Usernames => Users.AsParallel().Select(u => u.FirstName);
 
     private IReadOnlyDictionary<User, int> GetScore() =>
-        Slaps.GroupBy(s => s.From).ToDictionary(g => g.Key, g => g.Count());
+        Slaps.GroupBy(s => s.To).ToDictionary(g => g.Key, g => g.Count());
 
     public string GetMarkdownResult() =>
         GetScore().Aggregate(

@@ -29,8 +29,8 @@ public class Telegram : Controller
         baseUrl = configuration["Url"];
     }
 
-    [HttpGet("~/[controller]")]
-    public async Task<string> GetMe() => (await botClient.GetMeAsync()).ToString();
+    [HttpGet]
+    public async Task<string> Index() => (await botClient.GetMeAsync()).ToString();
 
     [HttpPost]
     public IActionResult Updates([FromBody] Update update)

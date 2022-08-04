@@ -1,6 +1,6 @@
 ﻿namespace MessengersClients.KeyboardAdapters;
 
-public interface IKeyboard
+public interface IKeyboard : ICloneable
 {
     bool IsInline { get; }
 

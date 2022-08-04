@@ -4,24 +4,18 @@ namespace MessengersClients.KeyboardFactories;
 
 public abstract class KeyboardFactory
 {
-    public abstract IKeyboard GetEmpty();
+    protected IKeyboard keyboardProto = null!;
 
-    public abstract IKeyboard GetStartKeyboard();
+    private IKeyboard GetProtoCopy() => (IKeyboard)keyboardProto.Clone();
 
-    public abstract IKeyboard GetLeaveGamesKeyboard();
+    public IKeyboard GetEmpty() => GetProtoCopy();
 
-    public abstract IKeyboard GetSlapKeyboard(IEnumerable<string> usernames);
+    public IKeyboard GetStartKeyboard() =>
+        GetProtoCopy().AddButton("Вступить в игру", ButtonColor.Positive).AddLine().AddButton("Начать игру");
 
-    protected static IKeyboard GetEmpty(IKeyboard kb) => kb;
-
-    protected static IKeyboard GetStartKeyboard(IKeyboard kb) =>
-        kb.AddButton("Вступить в игру", ButtonColor.Positive).AddLine().AddButton("Начать игру");
-    
-    protected static IKeyboard GetLeaveGamesKeyboard(IKeyboard kb) =>
-        kb.AddButton("Покинуть предыдущие игры", ButtonColor.Negative);
-
-    protected static IKeyboard GetSlapKeyboard(IKeyboard kb, IEnumerable<string> usernames)
+    public IKeyboard GetSlapKeyboard(IEnumerable<string> usernames)
     {
+        var kb = GetProtoCopy();
         foreach (string username in usernames)
             kb.AddButton($"👋{username}").AddLine();
         kb.AddButton("Изменить наказание", ButtonColor.Secondary)

@@ -4,6 +4,7 @@ using MessengersClients;
 using MessengersClients.KeyboardFactories;
 using MessengersClients.Types;
 using Microsoft.EntityFrameworkCore;
+using User = Database.Entities.User;
 
 namespace BotLogic.ChainResponsibilityLinks;
 

@@ -1,6 +1,6 @@
 ﻿using Database.Entities;
-using MessengersClients.Types;
 using Microsoft.EntityFrameworkCore;
+using User = Database.Entities.User;
 
 namespace Database;
 
@@ -20,8 +20,7 @@ public class SlapBotDal : DbContext
         modelBuilder.Entity<Game>(
                 game =>
                 {
-                    game.HasMany(g => g.Users).WithOne()
-                        .OnDelete(DeleteBehavior.Cascade);
+                    game.HasMany(g => g.Users).WithMany(u => u.Games);
                     game.HasMany(g => g.Slaps).WithOne(s => s.Game)
                         .OnDelete(DeleteBehavior.Cascade);
                 }

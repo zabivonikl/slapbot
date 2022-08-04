@@ -1,6 +1,6 @@
 ﻿namespace MessengersClients.Types;
 
-public class User
+public partial class User
 {
     public User(long id, string firstName)
     {
@@ -8,7 +8,7 @@ public class User
         FirstName = firstName;
     }
 
-    public long Id { get; init; }
+    public long Id { get; set; }
 
-    public string FirstName { get; init; }
+    public string FirstName { get; set; }
 }

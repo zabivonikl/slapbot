@@ -3,6 +3,7 @@ using Database.Entities;
 using MessengersClients.KeyboardFactories;
 using MessengersClients.Types;
 using Microsoft.EntityFrameworkCore;
+using User = Database.Entities.User;
 
 namespace BotLogic.ChainResponsibilityLinks;
 
@@ -24,25 +25,15 @@ public class CreateGameHandler : AbstractHandler
         try
         {
             if (context.Users.All(u => u.Id != handleableUpdate.User.Id))
-                await CreateUser(context, handleableUpdate.User);
+                await CreateUser(context, handleableUpdate.User.GetAdapter());
             else if (context.Games.Include(g => g.Users).Any(g => g.Id == handleableUpdate.Chat.Id && g.Users.Any(u => u.Id == handleableUpdate.User.Id)))
                 throw new InvalidOperationException("User already in this game");
-            else
-                throw new InvalidOperationException("User already exist in other game");
             await TryCreateGame(context);
             await FindGameAndAddUser(context);
             await update.Messenger.SendMessage(
                     update.Chat,
                     "Игра создана! Введите наказание:",
                     keyboardFactory.GetEmpty()
-                );
-        }
-        catch (InvalidOperationException ex1) when(ex1.Message == "User already exist in other game")
-        {
-            await handleableUpdate.Messenger.SendMessage(
-                    handleableUpdate.Chat,
-                    "Вы уже участвуете в другой игре. Покиньте предыдущие игры.",
-                    keyboardFactory.GetLeaveGamesKeyboard()
                 );
         }
         catch (InvalidOperationException ex) when(ex.Message == "Game already exist")
@@ -77,7 +68,7 @@ public class CreateGameHandler : AbstractHandler
         var game = await context.Games
             .Include(g => g.Users)
             .SingleAsync(g => g.Id == handleableUpdate.Chat.Id);
-        game.Users.Add(handleableUpdate.User);
+        game.Users.Add(handleableUpdate.User.GetAdapter());
         await context.SaveChangesAsync();
     }
 

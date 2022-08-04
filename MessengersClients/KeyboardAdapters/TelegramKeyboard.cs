@@ -2,7 +2,7 @@
 
 namespace MessengersClients.KeyboardAdapters;
 
-public class TelegramKeyboard : IKeyboard, ICloneable
+public class TelegramKeyboard : IKeyboard
 {
     private readonly List<List<IKeyboardButton>> keyboard = new();
 
