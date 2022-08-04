@@ -8,12 +8,17 @@ public abstract class KeyboardFactory
 
     public abstract IKeyboard GetStartKeyboard();
 
+    public abstract IKeyboard GetLeaveGamesKeyboard();
+
     public abstract IKeyboard GetSlapKeyboard(IEnumerable<string> usernames);
 
     protected static IKeyboard GetEmpty(IKeyboard kb) => kb;
 
     protected static IKeyboard GetStartKeyboard(IKeyboard kb) =>
         kb.AddButton("Вступить в игру", ButtonColor.Positive).AddLine().AddButton("Начать игру");
+    
+    protected static IKeyboard GetLeaveGamesKeyboard(IKeyboard kb) =>
+        kb.AddButton("Покинуть предыдущие игры", ButtonColor.Negative);
 
     protected static IKeyboard GetSlapKeyboard(IKeyboard kb, IEnumerable<string> usernames)
     {

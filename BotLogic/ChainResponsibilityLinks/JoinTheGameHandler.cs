@@ -1,5 +1,4 @@
-﻿using System.Data;
-using Database;
+﻿using Database;
 using Database.Entities;
 using MessengersClients.KeyboardFactories;
 using MessengersClients.Types;
@@ -24,6 +23,12 @@ public class CreateGameHandler : AbstractHandler
         await using var context = new SlapBotDal();
         try
         {
+            if (context.Users.All(u => u.Id != handleableUpdate.User.Id))
+                await CreateUser(context, handleableUpdate.User);
+            else if (context.Games.Include(g => g.Users).Any(g => g.Id == handleableUpdate.Chat.Id && g.Users.Any(u => u.Id == handleableUpdate.User.Id)))
+                throw new InvalidOperationException("User already in this game");
+            else
+                throw new InvalidOperationException("User already exist in other game");
             await TryCreateGame(context);
             await FindGameAndAddUser(context);
             await update.Messenger.SendMessage(
@@ -32,20 +37,23 @@ public class CreateGameHandler : AbstractHandler
                     keyboardFactory.GetEmpty()
                 );
         }
-        catch (InvalidOperationException ex) when(ex.Message == "Game already exist")
+        catch (InvalidOperationException ex1) when(ex1.Message == "User already exist in other game")
         {
-            await FindGameAndAddUser(context);
-            await update.Messenger.SendMessage(
-                    update.Chat,
-                    "Вы вступили в игру",
-                    keyboardFactory.GetStartKeyboard()
+            await handleableUpdate.Messenger.SendMessage(
+                    handleableUpdate.Chat,
+                    "Вы уже участвуете в другой игре. Покиньте предыдущие игры.",
+                    keyboardFactory.GetLeaveGamesKeyboard()
                 );
         }
-        catch (InvalidOperationException ex) when(ex.Message == "User already exist")
+        catch (InvalidOperationException ex) when(ex.Message == "Game already exist")
         {
-            await update.Messenger.SendMessage(
-                    update.Chat,
-                    "Вы уже учавствуете. Покиньте предыдущие игры.",
+            await JoinToGame(context);
+        }
+        catch (InvalidOperationException ex1) when(ex1.Message == "User already in this game")
+        {
+            await handleableUpdate.Messenger.SendMessage(
+                    handleableUpdate.Chat,
+                    "Вы уже участвуете.",
                     keyboardFactory.GetStartKeyboard()
                 );
         }
@@ -66,11 +74,9 @@ public class CreateGameHandler : AbstractHandler
 
     private async Task FindGameAndAddUser(SlapBotDal context)
     {
-        var game = await context.Games.SingleAsync(g => g.Id == handleableUpdate.Chat.Id);
-        if (game.Users.All(u => u.Id != handleableUpdate.User.Id))
-            await CreateUser(context, handleableUpdate.User);
-        else
-            throw new InvalidOperationException("User already exist");
+        var game = await context.Games
+            .Include(g => g.Users)
+            .SingleAsync(g => g.Id == handleableUpdate.Chat.Id);
         game.Users.Add(handleableUpdate.User);
         await context.SaveChangesAsync();
     }
@@ -79,5 +85,15 @@ public class CreateGameHandler : AbstractHandler
     {
         context.Users.Add(user);
         await context.SaveChangesAsync();
+    }
+
+    private async Task JoinToGame(SlapBotDal context)
+    {
+        await FindGameAndAddUser(context);
+        await handleableUpdate.Messenger.SendMessage(
+                handleableUpdate.Chat,
+                "Вы вступили в игру",
+                keyboardFactory.GetStartKeyboard()
+            );
     }
 }

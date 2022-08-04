@@ -12,7 +12,8 @@ public static class ChainResponsibilityFactory
         var deleteGameHandler = new DeleteGameHandler(keyboardFactory, editPunishmentHandler);
         var addSlapHandler = new AddSlapHandler(keyboardFactory, deleteGameHandler);
         var startGameHandler = new StartGameHandler(keyboardFactory, addSlapHandler);
-        var createGameHandler = new CreateGameHandler(keyboardFactory, startGameHandler);
+        var leavePreviousGameHandler = new LeavePreviousGameHandler(keyboardFactory, startGameHandler);
+        var createGameHandler = new CreateGameHandler(keyboardFactory, leavePreviousGameHandler);
         var startMessageHandler = new StartMessageHandler(keyboardFactory, createGameHandler);
         return new SetPunishmentHandler(keyboardFactory, startMessageHandler);
     }
