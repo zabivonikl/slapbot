@@ -5,21 +5,21 @@ using Telegram.Bot.Types.Enums;
 
 namespace MessengersClients.ClientAdapters;
 
-public class TelegramAdapter : IMessenger
+public class TelegramAdapter : Messenger
 {
     private readonly ITelegramBotClient client;
 
     public TelegramAdapter(ITelegramBotClient client) => this.client = client;
 
-    public bool IsSupportMarkdown => true;
+    public override bool IsSupportMarkdown => true;
 
-    public async Task SetTyping(Chat chat) =>
+    public override async Task SetTyping(Chat chat) =>
         await client.SendChatActionAsync(
                 chat.Id,
                 ChatAction.Typing
             );
 
-    public async Task SendMessage(Chat chat, string text, IKeyboard kb, bool isMarkdown = false) =>
+    public override async Task SendMessage(Chat chat, string text, Keyboard kb, bool isMarkdown = false) =>
         await client.SendTextMessageAsync(
                 chat.Id,
                 text,

@@ -2,27 +2,21 @@
 
 namespace MessengersClients.KeyboardAdapters;
 
-public class TelegramKeyboard : IKeyboard
+public class TelegramKeyboard : Keyboard
 {
     private readonly List<List<IKeyboardButton>> keyboard = new();
 
-    public TelegramKeyboard(bool isInline = false)
-    {
-        IsInline = isInline;
-        keyboard.Add(new List<IKeyboardButton>());
-    }
+    public TelegramKeyboard(bool isInline = false) : base(isInline) => keyboard.Add(new List<IKeyboardButton>());
 
-    public object Clone() => new TelegramKeyboard(IsInline);
+    public override object Clone() => new TelegramKeyboard(IsInline);
 
-    public bool IsInline { get; }
-
-    public IKeyboard AddButton(string text, ButtonColor _ = ButtonColor.Primary)
+    public override Keyboard AddButton(string text, ButtonColor _ = ButtonColor.Primary)
     {
         keyboard.Last().Add(IsInline ? new InlineKeyboardButton(text) : new KeyboardButton(text));
         return this;
     }
 
-    public IKeyboard AddLine()
+    public override Keyboard AddLine()
     {
         keyboard.Add(new List<IKeyboardButton>());
         return this;
