@@ -17,9 +17,9 @@ public class Slap
         To = to;
     }
 
-    [Required] public Game Game { get; }
+    [Required] public Game Game { get; } = null!;
 
-    [Required] public User From { get; }
+    [Required] public User From { get; } = null!;
 
-    [Required] public User To { get; }
+    [Required] public User To { get; } = null!;
 }

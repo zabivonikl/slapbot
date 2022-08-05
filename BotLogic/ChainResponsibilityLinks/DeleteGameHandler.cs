@@ -19,10 +19,10 @@ public class DeleteGameHandler : AbstractHandler
         await base._Handle(update);
         try
         {
-            var game = await DeleteGame(update);
+            await DeleteGame(update);
             await update.Messenger.SendMessage(
                     update.Chat,
-                    update.Messenger.IsSupportMarkdown ? game.GetMarkdownResult() : game.GetResult(),
+                    update.Messenger.IsSupportMarkdown ? "*Игра закончена\\.*" : "Игра закончена.",
                     keyboardFactory.GetStartKeyboard(),
                     update.Messenger.IsSupportMarkdown
                 );
@@ -33,16 +33,14 @@ public class DeleteGameHandler : AbstractHandler
         }
     }
 
-    private static async Task<Game> DeleteGame(Update update)
+    private static async Task DeleteGame(Update update)
     {
         await using var context = new SlapBotDal();
         var game = await context.Games
             .Include(g => g.Slaps)
             .Include(g => g.Users)
-            .Where(g => g.Id == update.Chat.Id)
-            .FirstAsync();
+            .FirstAsync(g => g.Id == update.Chat.Id);
         context.Games.Remove(game);
         await context.SaveChangesAsync();
-        return game;
     }
 }

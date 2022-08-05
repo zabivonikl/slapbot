@@ -11,7 +11,7 @@ public class StartGameHandler : AbstractHandler
     {
     }
 
-    protected override bool CanHandle(Update update) => update.Message == "Начать игру";
+    protected override bool CanHandle(Update update) => update.Message is "Начать игру" or "Продолжить игру";
 
     protected override async Task _Handle(Update update)
     {
@@ -36,7 +36,7 @@ public class StartGameHandler : AbstractHandler
         var game = await context.Games.Include(g => g.Users).FirstAsync(g => g.Id == update.Chat.Id);
         await update.Messenger.SendMessage(
                 update.Chat,
-                "Игра запущена!",
+                "Игра!",
                 keyboardFactory.GetSlapKeyboard(game.Usernames)
             );
     }

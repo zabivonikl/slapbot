@@ -22,7 +22,12 @@ public abstract class KeyboardFactory
             kb.AddButton($"👋{username}").AddLine();
         kb.AddButton("Изменить наказание", ButtonColor.Secondary)
             .AddLine()
-            .AddButton("Закончить игру", ButtonColor.Negative);
+            .AddButton("Текущий счёт", ButtonColor.Positive);
         return kb;
     }
+
+    public IKeyboard GetScoreKeyboard() => GetProtoCopy()
+        .AddButton("Продолжить игру", ButtonColor.Positive)
+        .AddLine()
+        .AddButton("Закончить игру", ButtonColor.Negative);
 }
