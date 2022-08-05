@@ -24,7 +24,7 @@ public class AddSlapHandler : AbstractHandler
         {
             await AddSlap(context, update);
         }
-        catch (InvalidOperationException ex) when(ex.Message == "User isn't in game")
+        catch (InvalidOperationException ex) when (ex.Message == "User isn't in game")
         {
             await update.Messenger.SendMessage(
                     update.Chat,

@@ -1,5 +1,4 @@
 ﻿using Database;
-using Database.Entities;
 using MessengersClients.KeyboardFactories;
 using MessengersClients.Types;
 using Microsoft.EntityFrameworkCore;
