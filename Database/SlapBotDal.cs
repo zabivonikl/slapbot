@@ -5,11 +5,11 @@ namespace Database;
 
 public class SlapBotDal : DbContext
 {
-    public DbSet<Game> Games { get; set; }
+    public DbSet<Game> Games { get; private set; } = null!;
 
-    public DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; private set; } = null!;
 
-    public DbSet<Slap> Slaps { get; set; }
+    public DbSet<Slap> Slaps { get; private set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
         optionsBuilder.UseSqlite(@"Data Source=SlapBotDB.db");

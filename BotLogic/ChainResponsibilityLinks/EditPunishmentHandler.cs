@@ -14,15 +14,15 @@ public class EditPunishmentHandler : AbstractHandler
 
     protected override async Task _Handle(Update update)
     {
-        await base._Handle(update);
+        base._Handle(update);
         await using (var context = new SlapBotDal())
         {
             context.Games
                 .First(g => g.Id == update.Chat.Id)
                 .Punishment = null;
-            await context.SaveChangesAsync();
+            context.SaveChangesAsync();
         }
 
-        await update.Messenger.SendMessage(update.Chat, "Введите наказание:", keyboardFactory.GetEmpty());
+        update.Messenger.SendMessage(update.Chat, "Введите наказание:", keyboardFactory.GetEmpty());
     }
 }

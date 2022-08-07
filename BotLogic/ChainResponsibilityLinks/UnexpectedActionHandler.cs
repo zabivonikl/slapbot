@@ -18,10 +18,10 @@ public class UnexpectedActionHandler : AbstractHandler
 
     protected override async Task _Handle(Update update)
     {
-        await base._Handle(update);
+        base._Handle(update);
         await using var context = new SlapBotDal();
-        var game = context.Games.Include(g => g.Users).FirstOrDefault(g => g.Id == update.Chat.Id);
-        await update.Messenger.SendMessage(
+        var game = await context.Games.Include(g => g.Users).FirstOrDefaultAsync(g => g.Id == update.Chat.Id);
+        update.Messenger.SendMessage(
                 update.Chat,
                 "Недопустимое действие",
                 game == null ? keyboardFactory.GetStartKeyboard() : keyboardFactory.GetSlapKeyboard(game.Usernames)

@@ -15,7 +15,7 @@ public class StartGameHandler : AbstractHandler
 
     protected override async Task _Handle(Update update)
     {
-        await base._Handle(update);
+        base._Handle(update);
         await using var context = new SlapBotDal();
         try
         {
@@ -23,7 +23,7 @@ public class StartGameHandler : AbstractHandler
         }
         catch (InvalidOperationException)
         {
-            await update.Messenger.SendMessage(
+            update.Messenger.SendMessage(
                     update.Chat,
                     "Игра не найдена. Нажмите \"Вступить в игру\"",
                     keyboardFactory.GetStartKeyboard()
@@ -34,7 +34,7 @@ public class StartGameHandler : AbstractHandler
     private async Task FindGame(SlapBotDal context, Update update)
     {
         var game = await context.Games.Include(g => g.Users).FirstAsync(g => g.Id == update.Chat.Id);
-        await update.Messenger.SendMessage(
+        update.Messenger.SendMessage(
                 update.Chat,
                 "Игра!",
                 keyboardFactory.GetSlapKeyboard(game.Usernames)

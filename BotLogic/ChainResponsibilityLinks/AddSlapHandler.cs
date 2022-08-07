@@ -18,15 +18,15 @@ public class AddSlapHandler : AbstractHandler
 
     protected override async Task _Handle(Update update)
     {
-        await base._Handle(update);
+        base._Handle(update);
         await using var context = new SlapBotDal();
         try
         {
-            await AddSlap(context, update);
+            AddSlap(context, update);
         }
         catch (InvalidOperationException ex) when (ex.Message == "User isn't in game")
         {
-            await update.Messenger.SendMessage(
+            update.Messenger.SendMessage(
                     update.Chat,
                     "Вступи в игру, тупой читер!",
                     keyboardFactory.GetStartKeyboard()
@@ -34,7 +34,7 @@ public class AddSlapHandler : AbstractHandler
         }
         catch (InvalidOperationException)
         {
-            await update.Messenger.SendMessage(
+            update.Messenger.SendMessage(
                     update.Chat,
                     $"Пользователь {update.Message![2..]} не найден",
                     keyboardFactory.GetSlapKeyboard(
@@ -57,9 +57,9 @@ public class AddSlapHandler : AbstractHandler
         var to = GetUser(game, update.Message![2..]);
         var slap = CreateSlap(context, game, from, to);
         game.Slaps.Add(slap);
-        await context.SaveChangesAsync();
+        context.SaveChangesAsync();
 
-        await update.Messenger.SendMessage(
+        update.Messenger.SendMessage(
                 update.Chat,
                 update.Messenger.IsSupportMarkdown ? $"_{game.Punishment!.EscapeSymbols()}_ засчитано"
                     : $"{game.Punishment!} засчитано",

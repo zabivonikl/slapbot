@@ -37,7 +37,7 @@ public class Telegram : Controller
     {
         logger.LogInformation("{UpdateId}: {S}", update.Id, update.Type.ToString());
         if (update.Type == UpdateType.Message)
-            Task.Factory.StartNew(() => eventHandler.Handle(update.GetAdapter(botClient)));
+            eventHandler.Handle(update.GetAdapter(botClient));
         return Ok("ok");
     }
 

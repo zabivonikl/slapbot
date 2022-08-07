@@ -13,7 +13,7 @@ public class StartMessageHandler : AbstractHandler
 
     protected override async Task _Handle(Update update)
     {
-        await base._Handle(update);
-        await update.Messenger.SendMessage(update.Chat, "Выберите действие", keyboardFactory.GetStartKeyboard());
+        base._Handle(update);
+        update.Messenger.SendMessage(update.Chat, "Выберите действие", keyboardFactory.GetStartKeyboard());
     }
 }

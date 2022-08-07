@@ -20,7 +20,7 @@ public class CreateGameHandler : AbstractHandler
     protected override async Task _Handle(Update incomingUpdate)
     {
         update = incomingUpdate;
-        await base._Handle(update);
+        base._Handle(update);
         await using var context = new SlapBotDal();
         try
         {
@@ -30,7 +30,7 @@ public class CreateGameHandler : AbstractHandler
                 throw new InvalidOperationException("User already in this game");
             await TryCreateGame(context);
             await FindGameAndAddUser(context);
-            await update.Messenger.SendMessage(
+            update.Messenger.SendMessage(
                     update.Chat,
                     "Игра создана! Введите наказание:",
                     keyboardFactory.GetEmpty()
@@ -42,7 +42,7 @@ public class CreateGameHandler : AbstractHandler
         }
         catch (InvalidOperationException ex1) when (ex1.Message == "User already in this game")
         {
-            await update.Messenger.SendMessage(
+            update.Messenger.SendMessage(
                     update.Chat,
                     "Вы уже участвуете.",
                     keyboardFactory.GetStartKeyboard()
@@ -88,7 +88,7 @@ public class CreateGameHandler : AbstractHandler
     private async Task JoinToGame(SlapBotDal context)
     {
         await FindGameAndAddUser(context);
-        await update.Messenger.SendMessage(
+        update.Messenger.SendMessage(
                 update.Chat,
                 "Вы вступили в игру",
                 keyboardFactory.GetStartKeyboard()

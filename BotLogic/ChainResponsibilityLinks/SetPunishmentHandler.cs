@@ -20,15 +20,15 @@ public class SetPunishmentHandler : AbstractHandler
 
     protected override async Task _Handle(Update update)
     {
-        await base._Handle(update);
+        base._Handle(update);
         await using (var context = new SlapBotDal())
         {
             var game = await context.Games.FirstAsync(g => g.Id == update.Chat.Id);
             game.Punishment = update.Message;
-            await context.SaveChangesAsync();
+            context.SaveChangesAsync();
         }
 
-        await update.Messenger.SendMessage(
+        update.Messenger.SendMessage(
                 update.Chat,
                 GetResponse(update),
                 keyboardFactory.GetStartKeyboard(),

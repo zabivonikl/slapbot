@@ -15,11 +15,11 @@ public class DeleteGameHandler : AbstractHandler
 
     protected override async Task _Handle(Update update)
     {
-        await base._Handle(update);
+        base._Handle(update);
         try
         {
             await DeleteGame(update);
-            await update.Messenger.SendMessage(
+            update.Messenger.SendMessage(
                     update.Chat,
                     update.Messenger.IsSupportMarkdown ? "*Игра закончена\\.*" : "Игра закончена.",
                     keyboardFactory.GetStartKeyboard(),
@@ -28,7 +28,7 @@ public class DeleteGameHandler : AbstractHandler
         }
         catch (InvalidOperationException)
         {
-            await update.Messenger.SendMessage(update.Chat, "Игра не найдена", keyboardFactory.GetStartKeyboard());
+            update.Messenger.SendMessage(update.Chat, "Игра не найдена", keyboardFactory.GetStartKeyboard());
         }
     }
 
@@ -40,6 +40,6 @@ public class DeleteGameHandler : AbstractHandler
             .Include(g => g.Users)
             .FirstAsync(g => g.Id == update.Chat.Id);
         context.Games.Remove(game);
-        await context.SaveChangesAsync();
+        context.SaveChangesAsync();
     }
 }

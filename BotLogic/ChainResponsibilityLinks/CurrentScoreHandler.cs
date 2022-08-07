@@ -15,13 +15,13 @@ public class CurrentScoreHandler : AbstractHandler
 
     protected override async Task _Handle(Update update)
     {
-        await base._Handle(update);
+        base._Handle(update);
         await using var context = new SlapBotDal();
         var game = await context.Games
             .Include(g => g.Slaps)
             .Include(g => g.Users)
             .FirstAsync(g => g.Id == update.Chat.Id);
-        await update.Messenger.SendMessage(
+        update.Messenger.SendMessage(
                 update.Chat,
                 update.Messenger.IsSupportMarkdown ? game.GetMarkdownResult() : game.GetResult(),
                 keyboardFactory.GetScoreKeyboard(),
