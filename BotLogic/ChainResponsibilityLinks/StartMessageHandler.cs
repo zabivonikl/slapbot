@@ -11,9 +11,10 @@ public class StartMessageHandler : AbstractHandler
 
     protected override bool CanHandle(Update update) => update.Message is "/start" or "Начать";
 
-    protected override async Task _Handle(Update update)
+    protected override Task _Handle(Update update)
     {
         base._Handle(update);
         update.Messenger.SendMessage(update.Chat, "Выберите действие", keyboardFactory.GetStartKeyboard());
+        return Task.CompletedTask;
     }
 }
